@@ -73,7 +73,11 @@ const CreateForm = () => {
       formData.append('name', values.name);
       formData.append('email', values.email);
       formData.append('phone', values.email);
-      formData.append('file', values.file);
+      formData.append('checkboxes', values.checkboxes);
+      formData.append('dropdown', values.dropdown);
+      formData.append('radio', values.radio);
+      formData.append('file1', values.attachment1);
+      formData.append('file2', values.attachment2);
       axios
         .post('https://server-for-crud.onrender.com/users/add_user', formData, {
           headers: {
@@ -317,12 +321,15 @@ const CreateForm = () => {
             )}
           </FormControl>
           <Space />
+          <Space />
+          <Space />
 
           <Button
             variant="contained"
             color="primary"
             type="submit"
             startIcon={<SendIcon />}
+            fullWidth
           >
             Submit
           </Button>
