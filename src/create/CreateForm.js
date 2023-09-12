@@ -69,23 +69,27 @@ const CreateForm = () => {
     validationSchema,
     onSubmit: (values) => {
       // Handle form submission here
-      console.log(values);
+      console.log(
+        'typeof(values.checkboxes)',
+        JSON.stringify(values.checkboxes)
+      );
       formData.append('name', values.name);
       formData.append('email', values.email);
-      formData.append('phone', values.email);
-      formData.append('checkboxes', values.checkboxes);
+      formData.append('phone', values.phone);
+      formData.append('checkboxes', JSON.stringify(values.checkboxes));
       formData.append('dropdown', values.dropdown);
       formData.append('radio', values.radio);
       formData.append('file1', values.attachment1);
       formData.append('file2', values.attachment2);
       axios
-        .post('https://server-for-crud.onrender.com/users/add_user', formData, {
+        .post('http://localhost:5000/users/add_user', formData, {
           headers: {
             'Content-Type': 'multipart/form-data', // Important for file uploads
           },
         })
         .then((response) => {
           console.log('Data sent successfully:', response.data);
+          // console.log('Data sent successfully:',JSON.parse(response.data.checkboxes).option1);
         })
         .catch((error) => {
           console.error('Error sending data:', error);

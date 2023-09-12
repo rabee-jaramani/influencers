@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 export default function Read() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   function base64ToBlob(base64String, mimeType) {
     const byteCharacters = atob(base64String);
     const byteNumbers = new Array(byteCharacters.length);
@@ -14,22 +15,24 @@ export default function Read() {
     return new Blob([byteArray], { type: mimeType });
   }
   const fetchUsers = () => {
+    setLoading(true);
     axios
       .get('https://server-for-crud.onrender.com/users')
       .then((response) => {
         // Handle the response here (response.data contains the fetched data)
         const users = response.data;
-        console.log(users);
+        console.log('users', users);
         setData(users);
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
   };
-  const downloadFile = (user) => {
-    const base64String = user.file.data;
-    const mimeType = user.file.contentType;
-    const downloaded_file = user.file.filename;
+  const downloadFile = (file) => {
+    const base64String = file.data;
+    const mimeType = file.contentType;
+    const downloaded_file = file.filename;
     const blob = base64ToBlob(base64String, mimeType);
     // Example: Create a download link for the Blob
     const blobUrl = URL.createObjectURL(blob);
@@ -66,13 +69,30 @@ export default function Read() {
             </div>
             <div className="column">
               <span>
-                <strong>File: </strong>
+                <strong>Phone: </strong>
               </span>
-              <p onClick={() => downloadFile(user)}>{user.file.filename}</p>
+              <span>{user.phone}</span>
+            </div>
+            <div className="column">
+              <span>
+                <strong>File1: </strong>
+              </span>
+              <p onClick={() => downloadFile(user.file1)}>
+                {user.file1.filename ? user.file1.filename : ''}
+              </p>
+            </div>
+            <div className="column">
+              <span>
+                <strong>File2: </strong>
+              </span>
+              <p onClick={() => downloadFile(user.file2)}>
+                {user.file2.filename ? user.file2.filename : ''}
+              </p>
             </div>
           </div>
         </div>
       ))}
+      {loading ? <h3>Loading...</h3> : ''}
       <button onClick={fetchUsers}>Fetch data</button>
     </div>
   );
