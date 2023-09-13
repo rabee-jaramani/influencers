@@ -1,6 +1,54 @@
 
 .create-form-cont
+    position: relative
     max-width: 400px
     margin: auto
-    input, label
-        font-size: 14px !important
+    background-color: #f9f1d6
+    border-radius: 5px
+    padding-bottom: 40px
+    input, label,span,div
+        font-size: 13px !important
+    button
+        background-color: #5dd8bc !important
+    .label-att-btn span
+        color: #000
+        &:first-child
+            background-color: #F3DA86 !important
+
+        svg
+            color: #000 !important
+    svg
+        color: #000
+    .submit-btn
+        color: #000
+.form-header-1
+    border-radius: 10px 10px 0 0
+    width: 100%
+    background-color: #03257e
+    padding: 10px
+    text-align: center
+    img
+        max-width: 150px
+        margin: auto
+.form-header-2
+    padding: 20px 5px
+    width: 100%
+    background-color: #F3DA86
+    border-radius: 5px 5px 0 0
+    p
+        width: 100%
+        text-align: center
+        padding: 10px 5px
+        line-height: 19px
+.form-div
+    padding-top: 30px
+.form-status-label
+    font-size: 13px
+    padding: 10px
+@media screen and ( max-width:  500px)
+    .create-cont
+        padding: 10px
+.sent-label
+    color: #00bd09 !important
+.not-sent-label
+    color: #fe3434

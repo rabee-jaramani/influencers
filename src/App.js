@@ -1,13 +1,14 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import { BrowserRouter as Router, Route,  } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Create from './create/Create';
 import Header from './header/Header';
 import Home from './Home';
 import Read from './read/Read';
 import './style.sass';
-
+// import { HashRouter as  Route, Routes } from 'react-router-dom';
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <div className="App">
         <Header />
         <Routes>
@@ -16,7 +17,7 @@ function App() {
           <Route path="/read" element={<Read />} />
         </Routes>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 

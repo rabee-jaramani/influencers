@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/talents_app/static/css/main.f3bb74ac.css",
+    "main.js": "/talents_app/static/js/main.52963670.js",
+    "index.html": "/talents_app/index.html",
+    "main.f3bb74ac.css.map": "/talents_app/static/css/main.f3bb74ac.css.map",
+    "main.52963670.js.map": "/talents_app/static/js/main.52963670.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f3bb74ac.css",
+    "static/js/main.52963670.js"
+  ]
+}

@@ -17,7 +17,7 @@ export default function Read() {
   const fetchUsers = () => {
     setLoading(true);
     axios
-      .get('https://server-for-crud.onrender.com/users')
+      .get('https://server-for-celebreties.onrender.com/users')
       .then((response) => {
         // Handle the response here (response.data contains the fetched data)
         const users = response.data;
