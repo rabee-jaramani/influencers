@@ -84,15 +84,11 @@ const CreateForm = () => {
       formData.append('file1', values.attachment1);
       formData.append('file2', values.attachment2);
       axios
-        .post(
-          'https://server-for-celebreties.onrender.com/users/add_user',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data', // Important for file uploads
-            },
-          }
-        )
+        .post('http://localhost:5000/users/add_user', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Important for file uploads
+          },
+        })
         .then((response) => {
           console.log('Data sent successfully:', response.data);
           // console.log('Data sent successfully:',JSON.parse(response.data.checkboxes).option1);
