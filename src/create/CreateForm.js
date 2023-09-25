@@ -25,6 +25,11 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import Space from './Space';
+import Profession from './form_components/Profession';
+import Name from './form_components/Name';
+import Email from './form_components/Email';
+import Phone from './form_components/Phone';
+import Nationality from './form_components/Nationality';
 const formData = new FormData();
 
 const CreateForm = () => {
@@ -32,26 +37,29 @@ const CreateForm = () => {
   const [sent, setSent] = useState(false);
   const [form_error_label, setForm_error_label] = useState('');
   const initialValues = {
+    profession: '',
     name: '',
     email: '',
     phone: '',
-    checkboxes: {
-      option1: false,
-      option2: false,
-      option3: false,
-    },
-    dropdown: '',
-    radio: '',
+    nationality: null,
     attachment1: null,
     attachment2: null,
+    // checkboxes: {
+    //   option1: false,
+    //   option2: false,
+    //   option3: false,
+    // },
+    // radio: '',
   };
+
   const validationSchema = Yup.object().shape({
+    profession: Yup.string().required('Profession is required'),
     name: Yup.string().required('Name is required'),
     email: Yup.string()
       .email('Invalid email address')
       .required('Email is required'),
     phone: Yup.string().required('Phone is required'),
-    dropdown: Yup.string().required('Please select an option'),
+    nationality: Yup.object().required('Please select an option'),
     radio: Yup.string().required('Please select a radio option'),
     attachment1: Yup.mixed()
       .test('fileSize', 'File size is too large', (value) => {
@@ -70,40 +78,41 @@ const CreateForm = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      setSubmitting(true);
-      console.log(
-        'typeof(values.checkboxes)',
-        JSON.stringify(values.checkboxes)
-      );
-      formData.append('name', values.name);
-      formData.append('email', values.email);
-      formData.append('phone', values.phone);
-      formData.append('checkboxes', JSON.stringify(values.checkboxes));
-      formData.append('dropdown', values.dropdown);
-      formData.append('radio', values.radio);
-      formData.append('file1', values.attachment1);
-      formData.append('file2', values.attachment2);
-      axios
-        .post('http://localhost:5000/users/add_user', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data', // Important for file uploads
-          },
-        })
-        .then((response) => {
-          console.log('Data sent successfully:', response.data);
-          // console.log('Data sent successfully:',JSON.parse(response.data.checkboxes).option1);
-          setSubmitting(false);
-          setSent(true);
-          setForm_error_label('Your data has been sent successfuly, Thanks 😊');
-        })
-        .catch((error) => {
-          console.error('Error sending data:', error);
-          setSubmitting(false);
-          setSent(false);
-          setForm_error_label(
-            'Something went wrong 😞, please refresh the page and try again'
-          );
-        });
+      console.log('Values:', values);
+      // setSubmitting(true);
+      // console.log(
+      //   'typeof(values.checkboxes)',
+      //   JSON.stringify(values.checkboxes)
+      // );
+      // formData.append('name', values.name);
+      // formData.append('email', values.email);
+      // formData.append('phone', values.phone);
+      // formData.append('checkboxes', JSON.stringify(values.checkboxes));
+      // formData.append('dropdown', values.dropdown);
+      // formData.append('radio', values.radio);
+      // formData.append('file1', values.attachment1);
+      // formData.append('file2', values.attachment2);
+      // axios
+      //   .post('http://localhost:5000/users/add_user', formData, {
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data', // Important for file uploads
+      //     },
+      //   })
+      //   .then((response) => {
+      //     console.log('Data sent successfully:', response.data);
+      //     // console.log('Data sent successfully:',JSON.parse(response.data.checkboxes).option1);
+      //     setSubmitting(false);
+      //     setSent(true);
+      //     setForm_error_label('Your data has been sent successfuly, Thanks 😊');
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error sending data:', error);
+      //     setSubmitting(false);
+      //     setSent(false);
+      //     setForm_error_label(
+      //       'Something went wrong 😞, please refresh the page and try again'
+      //     );
+      //   });
     },
   });
 
@@ -123,51 +132,18 @@ const CreateForm = () => {
       <div className="form-div">
         <Container>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id="name"
-              name="name"
-              label="Name"
-              variant="outlined"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              margin="none"
-              size="small"
-            />
+            <Profession formik={formik} />
             <Space />
-            <TextField
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              variant="outlined"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              margin="none"
-              size="small"
-            />
+            <Name formik={formik} />
+            <Space />
+            <Email formik={formik} />
+            <Space />
+            <Phone formik={formik} />
+            <Space />
+            <Nationality formik={formik} />
             <Space />
 
-            <TextField
-              fullWidth
-              id="phone"
-              name="phone"
-              label="Phone"
-              variant="outlined"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
-              margin="none"
-              size="small"
-            />
-            <Space />
-
-            <FormGroup
+            {/* <FormGroup
               onChange={formik.handleChange}
               value={formik.values.checkboxes}
               error={
@@ -215,37 +191,10 @@ const CreateForm = () => {
                 }
                 label="Option 3"
               />
-            </FormGroup>
+            </FormGroup> */}
             <Space />
 
-            <FormControl
-              variant="outlined"
-              fullWidth
-              margin="none"
-              size="small"
-            >
-              <FormLabel>Select an option:</FormLabel>
-              <Select
-                id="dropdown"
-                name="dropdown"
-                value={formik.values.dropdown}
-                onChange={formik.handleChange}
-                label="Dropdown"
-                error={
-                  formik.touched.dropdown && Boolean(formik.errors.dropdown)
-                }
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="option1"> Option 1 </MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
-                <MenuItem value="option3">Option 3</MenuItem>
-              </Select>
-            </FormControl>
-            <Space />
-
-            <FormControl
+            {/* <FormControl
               component="fieldset"
               fullWidth
               margin="none"
@@ -275,7 +224,7 @@ const CreateForm = () => {
                   label="Radio Option 3"
                 />
               </RadioGroup>
-            </FormControl>
+            </FormControl> */}
             <Space />
 
             <FormControl component="fieldset" fullWidth margin="none">
